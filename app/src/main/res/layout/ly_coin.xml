@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:padding="2dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_round"
+        android:layout_margin="8dp"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute,UseCompoundDrawables">
+
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/tv_coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/background_round"
+            android:fontFamily="@font/uomobold"
+            android:text="1000"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_marginStart="4dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/coin"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            tools:ignore="ContentDescription" />
+
+
+
+    </LinearLayout>
+</layout>
+
