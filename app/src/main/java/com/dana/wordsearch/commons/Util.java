@@ -2,17 +2,17 @@ package com.dana.wordsearch.commons;
 
 import android.graphics.Color;
 
+import com.dana.wordsearch.Constants;
+
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by abdularis on 23/06/17.
- */
+
 
 public class Util {
     public static final char NULL_CHAR = '\0';
 
-    private static Random sRand = new Random();
+    private static final Random sRand = new Random();
 
     public static int getRandomColorWithAlpha(int alpha) {
         int r = getRandomInt() % 256;
@@ -22,18 +22,11 @@ public class Util {
     }
 
     public static char getRandomChar() {
-        // ASCII A = 65 - Z = 90
+
         return (char) getRandomIntRange(65, 90);
     }
 
-    /**
-     * generate random integer between min and max (inclusive)
-     * example: min = 5, max = 7 output would be (5, 6, 7)
-     *
-     * @param min minimum integer number to be generated
-     * @param max maximum integer number to be generated (inclusive)
-     * @return integer between min - max
-     */
+
     public static int getRandomIntRange(int min, int max) {
         return min + (getRandomInt() % ((max - min) + 1));
     }
@@ -66,11 +59,8 @@ public class Util {
         return out.toString();
     }
 
-    /**
-     * Isi slot / element yang masih kosong dengan karakter acak
-     *
-     */
-    public static void fillNullCharWidthRandom(char gridArr[][]) {
+
+    public static void fillNullCharWidthRandom(char[][] gridArr) {
         for (int i = 0; i < gridArr.length; i++) {
             for (int j = 0; j < gridArr[i].length; j++) {
                 if (gridArr[i][j] == NULL_CHAR)
@@ -79,10 +69,7 @@ public class Util {
         }
     }
 
-    /**
-     * Urutkan list strings dari panjang string yang terbesar ke terkecil
-     *
-     */
+
     public static void sortByLength(List<String> strings) {
         for (int i = 0; i < strings.size(); i++) {
             for (int j = i + 1; j < strings.size(); j++) {
@@ -95,4 +82,32 @@ public class Util {
         }
     }
 
+
+    public static int getgameBoardSize(int gameType)
+    {
+        if (gameType== Constants.IGAMETYPE.EASY)
+        return  Constants.IGAMEGRIDSIZE.EASY;
+
+       else if (gameType== Constants.IGAMETYPE.MEDIUM)
+            return  Constants.IGAMEGRIDSIZE.MEDIUM;
+
+        else if (gameType== Constants.IGAMETYPE.HARD)
+            return  Constants.IGAMEGRIDSIZE.HARD;
+
+        else return Constants.IGAMEGRIDSIZE.EASY;
+    }
+
+    public static int getEarnedCoins(int usedWordCount, int gameType) {
+
+        if (gameType== Constants.IGAMETYPE.EASY)
+            return  Constants.IGAMECOINS.EASY*usedWordCount;
+
+        else if (gameType== Constants.IGAMETYPE.MEDIUM)
+            return  Constants.IGAMECOINS.MEDIUM*usedWordCount;
+
+        else if (gameType== Constants.IGAMETYPE.HARD)
+            return  Constants.IGAMECOINS.HARD*usedWordCount;
+
+        else return Constants.IGAMECOINS.EASY*usedWordCount;
+    }
 }

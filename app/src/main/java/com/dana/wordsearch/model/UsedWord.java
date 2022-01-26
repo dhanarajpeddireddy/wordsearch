@@ -107,10 +107,10 @@ public class UsedWord extends Word {
              */
             if (string == null) return;
 
-            String split[] = string.split(":", 2);
+            String[] split = string.split(":", 2);
             if (split.length >= 2) {
-                String start[] = split[0].split(",", 2);
-                String end[] = split[1].split(",", 2);
+                String[] start = split[0].split(",", 2);
+                String[] end = split[1].split(",", 2);
 
                 if (start.length >= 2 && end.length >= 2) {
                     startRow = Integer.parseInt(start[0]);
@@ -160,11 +160,11 @@ public class UsedWord extends Word {
              */
             if (string == null) return;
 
-            String split[] = string.split(":");
+            String[] split = string.split(":");
 
             for (String s:split)
             {
-                String path[] = s.split(",", 2);
+                String[] path = s.split(",", 2);
                 PathItem pathItem=new PathItem();
                 pathItem.row=Integer.parseInt(path[0]);
                 pathItem.column=Integer.parseInt(path[1]);

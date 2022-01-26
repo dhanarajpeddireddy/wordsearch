@@ -16,7 +16,6 @@ public class StringListGridGenerator extends GridGenerator<List<String>, List<Us
 
     @Override
     public List<UsedWord> setGrid(List<String> dataInput, char[][] grid) {
-//        Util.sortByLength(dataInput);
 
         List<UsedWord> usedStrings = new ArrayList<>();
         int usedCount;
@@ -40,19 +39,23 @@ public class StringListGridGenerator extends GridGenerator<List<String>, List<Us
         Util.fillNullCharWidthRandom(grid);
 
         return usedStrings;
+
     }
 
     private Direction getRandomDirection() {
         Direction dir;
         do {
-            dir = Direction.values()[ Util.getRandomInt() % Direction.values().length ];
+            dir = Direction.values()[ Util.getRandomInt() % Direction.values().length];
         } while (dir == Direction.NONE);
         return dir;
     }
 
     private boolean tryPlaceWord(UsedWord word, char[][] gridArr) {
 
+        Log.e("UsedWord"," : "+word.getString());
+
         Direction startDir = getRandomDirection();
+        Log.e("startDir"," : "+startDir.toString());
         Direction currDir = startDir;
 
         int row, col,startRow,startCol;
@@ -60,13 +63,14 @@ public class StringListGridGenerator extends GridGenerator<List<String>, List<Us
         do {
 
             startRow = Util.getRandomInt() % gridArr.length;
+            Log.e("startRow"," : "+startRow);
             row = startRow;
             do {
 
                 startCol = Util.getRandomInt() % gridArr[0].length;
                 col = startCol;
                 do {
-
+                    Log.e("startCol"," : "+startCol);
                     if (isValidPlacement(row, col, currDir, gridArr, word.getString())) {
                         placeWordAt(row, col, currDir, gridArr, word);
                         return true;

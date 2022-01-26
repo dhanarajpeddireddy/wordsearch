@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
 
         <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
-        <item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>
+        <!--<item name="android:windowTranslucentNavigation" tools:ignore="NewApi">true</item>-->
     </style>
 
     <style name="Theme.WordSearch.NoActionBar">

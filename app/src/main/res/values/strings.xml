@@ -12,12 +12,15 @@
     <string name="snap_to_grid_def_val">ALWAYS_SNAP</string>
     <string name="pref_reverseMatching">reverseMatching</string>
     <string name="pref_grayscale">grayscale</string>
-    <string name="finished">Finished</string>
 
-    <string name="levelChooserTitle">Select Difficulty</string>
     <string name="levelDifficultyHard">Hard</string>
     <string name="levelDifficultyMedium">Medium</string>
     <string name="levelDifficultyEasy">Easy</string>
-    <string name="levelSelectionTitle">Select a level</string>
+    <string name="choose_avathar">Choose Avathar</string>
+
+    <string name="completed_info">you earned %1$d Coins.</string>
+    <string name="ad_app_id">ca-app-pub-5549280331650962~7319991783</string>
+    <string name="ad_rward_id">ca-app-pub-5549280331650962/8166686518</string>
+
 
 </resources>

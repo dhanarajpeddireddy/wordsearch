@@ -15,7 +15,21 @@
 
 
 
+        <TextView
+            android:fontFamily="@font/uomobold"
+            android:textSize="28sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/app_name_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
         <ImageView
+            android:visibility="gone"
             android:background="@drawable/background_round"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_category_24"
@@ -23,48 +37,56 @@
             android:layout_height="30dp"
             android:layout_marginLeft="8dp" />
 
+        <ImageView
+            android:visibility="gone"
+            android:padding="2dp"
+            android:layout_gravity="end"
+            android:background="@drawable/background_round"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/progression"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            tools:ignore="RtlCompat" />
 
-         <include
-             android:id="@+id/ly_coin"
-             layout="@layout/ly_coin"/>
 
+
+        <FrameLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/circle"
+            android:layout_width="140dp"
+            android:layout_height="140dp"/>
 
 
         <LinearLayout
             android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-
-            <LinearLayout
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:textAllCaps="true"
-                    android:rotation="-30"
-                    android:background="@drawable/logo_bg"
-                    android:textSize="20sp"
-                    android:padding="8dp"
-                    android:textColor="@android:color/white"
-                    android:fontFamily="@font/titlefont"
-                    android:text="@string/app_name_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_avathar"
+                android:onClick="chooseAvathar"
+                android:layout_gravity="center"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                tools:ignore="ContentDescription" />
 
 
             <include
-                android:layout_weight="1"
-                layout="@layout/ly_difficulty_chooser"
-                android:layout_height="0dp"
-                android:layout_width="match_parent" />
+                android:id="@+id/ly_coin"
+                layout="@layout/ly_coin"/>
+
+
+            <include layout="@layout/ly_difficulty_chooser"/>
 
 
         </LinearLayout>
@@ -73,8 +95,8 @@
 
 
 
-
     </FrameLayout>
 
+    </FrameLayout>
 
 </layout>

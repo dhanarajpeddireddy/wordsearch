@@ -13,6 +13,8 @@ import com.dana.wordsearch.model.Word;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +38,10 @@ public class GameDataCreator {
         List<UsedWord> usedWords =
                 new StringListGridGenerator()
                         .setGrid(getStringListFromWord(words, 100, maxCharCount), grid.getArray());
+
+        Collections.shuffle(usedWords);
+
+
 
         gameData.addUsedWords(buildUsedWordFromString(usedWords));
         gameData.setGrid(grid);

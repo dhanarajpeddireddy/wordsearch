@@ -59,4 +59,13 @@ public enum Direction {
 
         return NONE;
     }
+
+
+    @Override
+    public String toString() {
+        return "Direction{" +
+                "xOff=" + xOff +
+                ", yOff=" + yOff +
+                '}';
+    }
 }

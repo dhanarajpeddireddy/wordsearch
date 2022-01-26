@@ -1,14 +1,17 @@
 package com.dana.wordsearch.game;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dana.wordsearch.GameApplication;
+import com.dana.wordsearch.Preferences;
 import com.dana.wordsearch.commons.SingleLiveEvent;
 import com.dana.wordsearch.commons.Timer;
+import com.dana.wordsearch.commons.Util;
 import com.dana.wordsearch.data.entity.GameDataMapper;
 import com.dana.wordsearch.data.sqlite.DbHelper;
 import com.dana.wordsearch.data.sqlite.GameDataSQLiteDataSource;
@@ -141,14 +144,20 @@ public class GamePlayViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void generateNewGameRound(int rowCount, int colCount) {
+    public void generateNewGameRound(Context context,int gametype) {
         if (!(mCurrentState instanceof Generating)) {
-            setGameState(new Generating(rowCount, colCount, "Play me"));
+
+            int rowCount= Util.getgameBoardSize(gametype);
+            int colcount= rowCount;
+
+            setGameState(new Generating(rowCount, colcount, "game"));
 
             Observable.create((ObservableOnSubscribe<GameData>) emitter -> {
                 List<Word> wordList = mwordXmlDataSource.getWords();
-                GameData gr = mGameDataCreator.newGameData(wordList, rowCount, colCount, "Play me");
+                GameData gr = mGameDataCreator.newGameData(wordList, rowCount, colcount, "game");
                 long gid = mGameDataSource.saveGameData(new GameDataMapper().revMap(gr));
+                Preferences.getInstance(context).setBooleanPref(String.valueOf(gametype),true);
+                Preferences.getInstance(context).setIntPref(String.valueOf(gametype),(int)gid);
                 gr.setId((int) gid);
                 emitter.onNext(gr);
                 emitter.onComplete();

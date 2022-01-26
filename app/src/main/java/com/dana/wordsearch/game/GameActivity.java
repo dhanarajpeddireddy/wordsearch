@@ -1,12 +1,19 @@
 package com.dana.wordsearch.game;
 
+import static com.dana.wordsearch.Constants.EXTRA_COL_COUNT;
+import static com.dana.wordsearch.Constants.EXTRA_EARNED_COINS;
+import static com.dana.wordsearch.Constants.EXTRA_GAME_ROUND_ID;
+import static com.dana.wordsearch.Constants.EXTRA_ROW_COUNT;
+
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -16,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.dana.wordsearch.Constant;
+import com.dana.wordsearch.Constants;
+import com.dana.wordsearch.GameCompletedActivity;
 import com.dana.wordsearch.Preferences;
 import com.dana.wordsearch.R;
 import com.dana.wordsearch.SoundPlayer;
@@ -28,7 +35,6 @@ import com.dana.wordsearch.custom.StreakView;
 import com.dana.wordsearch.databinding.ActivityGameBinding;
 import com.dana.wordsearch.model.GameData;
 import com.dana.wordsearch.model.UsedWord;
-
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
@@ -36,13 +42,7 @@ public class GameActivity extends AppCompatActivity {
     ActivityGameBinding binding;
     Preferences preferences;
     SoundPlayer mSoundPlayer;
-
-    public static final String EXTRA_GAME_ROUND_ID =
-            "GameActivity.ID";
-    public static final String EXTRA_ROW_COUNT =
-            "GameActivity.ROW";
-    public static final String EXTRA_COL_COUNT =
-            "GameActivity.COL";
+    int gametype;
 
     private GamePlayViewModel mViewModel;
     private static final StreakLineMapper STREAK_LINE_MAPPER = new StreakLineMapper();
@@ -57,31 +57,31 @@ public class GameActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            gametype = extras.getInt(Constants.EXTRA_GAME_TYPE);
             if (extras.containsKey(EXTRA_GAME_ROUND_ID)) {
                 int gid = extras.getInt(EXTRA_GAME_ROUND_ID);
+                Log.e("gameAgameId",gid+"");
                 mViewModel.loadGameRound(gid);
             } else {
-                int rowCount = extras.getInt(EXTRA_ROW_COUNT,8);
-                int colCount = extras.getInt(EXTRA_COL_COUNT,8);
-                mViewModel.generateNewGameRound(rowCount, colCount);
+
+                mViewModel.generateNewGameRound(this,gametype);
             }
         }
 
-
     }
-
-
 
     private void initViews() {
 
         mViewModel = new ViewModelProvider(this).get(GamePlayViewModel.class);
 
-        preferences=new Preferences(this);
+        preferences= Preferences.getInstance(this);
 
         mSoundPlayer=new SoundPlayer(this,preferences);
 
         binding.letterBoard.getStreakView().setEnableOverrideStreakLineColor(preferences.grayscale());
         binding.letterBoard.getStreakView().setOverrideStreakLineColor(Color.GRAY);
+
+        binding.ivBack.setOnClickListener(view -> finish());
 
     }
 
@@ -89,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
     private void setObservers() {
 
         mViewModel.getOnQlueListner().observe(this, this::showQlue);
-        mViewModel.getOnTimer().observe(this, this::showDuration);
+       // mViewModel.getOnTimer().observe(this, this::showDuration);
         mViewModel.getOnAnserdWordCount().observe(this, this::showAnsweredWordsCount);
         mViewModel.getOnGameState().observe(this, this::onGameStateChanged);
         mViewModel.getOnAnswerResult().observe(this, this::onAnswerResult);
@@ -125,16 +125,17 @@ public class GameActivity extends AppCompatActivity {
     public void getOneQlue(View view)
     {
         int coins=preferences.getIntPref(Preferences.KEY_USER_COINS,100);
-        if (coins>= Constant.QLUECOST)
+        if (coins>= Constants.QLUECOST)
         {
             mViewModel.getQule();
-            preferences.setIntPref(Preferences.KEY_USER_COINS,coins-Constant.QLUECOST);
+            preferences.setIntPref(Preferences.KEY_USER_COINS,coins-Constants.QLUECOST);
         }
         else
         {
            // TODO  show watch video popup
         }
     }
+
 
     private void showQlue(UsedWord usedWord) {
 
@@ -182,10 +183,14 @@ public class GameActivity extends AppCompatActivity {
 
 
     private void showFinishGame(int gameId) {
-        int coins=preferences.getIntPref(Preferences.KEY_USER_COINS,0);
-        coins+=usedWordCount*5;
+        int coins=preferences.getIntPref(Preferences.KEY_USER_COINS,100);
+        int earnedCoins=Util.getEarnedCoins(usedWordCount,gametype);
+        coins=coins+earnedCoins;
         preferences.setIntPref(Preferences.KEY_USER_COINS,coins);
-        Toast.makeText(getApplicationContext(),"finished",Toast.LENGTH_LONG).show();
+        Log.e("showFinishGame",gametype+"");
+        preferences.setBooleanPref(String.valueOf(gametype),false);
+        startActivity(new Intent(this, GameCompletedActivity.class).putExtra(EXTRA_EARNED_COINS,earnedCoins));
+        finish();
     }
 
     private void showLoading(boolean enable, String text) {
@@ -251,7 +256,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void setGameAsAlreadyFinished() {
         binding.letterBoard.getStreakView().setInteractive(false);
-        binding.finishedText.setVisibility(View.VISIBLE);
+
     }
 
 

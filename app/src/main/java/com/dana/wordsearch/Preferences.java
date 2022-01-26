@@ -7,6 +7,18 @@ import com.dana.wordsearch.custom.StreakView;
 
 
 public class Preferences {
+
+
+    private static Preferences preferences;
+    public static Preferences getInstance(Context context)
+    {
+        if (preferences==null)
+            preferences=new Preferences(context);
+
+        return preferences;
+
+    }
+
     public static String KEY_USER_COINS="user_coins";
     private static String KEY_SHOW_GRID_LINE;
     private static String KEY_SNAP_TO_GRID;
@@ -22,7 +34,7 @@ public class Preferences {
 
     private final SharedPreferences mPreferences;
 
-    public Preferences(Context context) {
+    private Preferences(Context context) {
         mPreferences = context.getSharedPreferences("wordsearchpref", Context.MODE_PRIVATE);;
 
         KEY_SHOW_GRID_LINE = context.getString(R.string.pref_showGridLine);
@@ -104,6 +116,17 @@ public class Preferences {
     public int getIntPref(String key,int defaultValue)
     {
         return mPreferences.getInt(key, defaultValue);
+    }
+
+
+    public void setBooleanPref(String key,boolean value)
+    {
+        mPreferences.edit().putBoolean(key+"bool",value).apply();
+    }
+
+    public boolean getBooleanPref(String key)
+    {
+        return mPreferences.getBoolean(key+"bool",false);
     }
 
 }
